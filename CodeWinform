@@ -1,0 +1,147 @@
+Form1.cs
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace Doan10
+{
+    public partial class Form1 : Form
+    {
+
+        private Stack<string> clipboardStack = new Stack<string>();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        public void Form1_Load(object sender, EventArgs e)
+        {
+            clipboardStack.Clear();
+        }
+
+        private void btnCopy(object sender, EventArgs e)
+        {
+            string text = textInput.Text.Trim();  // Lấy nội dung từ ô nhập liệu và loại bỏ khoảng trắng ở đầu/cuối
+            if (!string.IsNullOrEmpty(text))  // Kiểm tra nếu nội dung không rỗng
+            {
+                clipboardStack.Push(text);  // Đẩy nội dung vào đỉnh của stack clipboard
+                listClipboard.Items.Insert(0, text);  // Thêm nội dung vào dòng đầu tiên của danh sách hiển thị (ListBox)
+                textInput.Clear();  // Xóa ô nhập liệu sau khi copy
+            }
+            else
+            {
+                // Hiển thị hộp thoại cảnh báo yêu cầu người dùng nhập nội dung
+                MessageBox.Show("Vui lòng nhập văn bản để copy!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnPaste(object sender, EventArgs e)
+        {
+            if (clipboardStack.Count > 0)  // Kiểm tra nếu trong stack còn phần tử
+            {
+                string text = clipboardStack.Pop();  // Lấy ra phần tử trên cùng của stack (đồng thời xóa khỏi stack)
+                textInput.Text = text;  // Gán nội dung đó lại vào ô nhập liệu
+                listClipboard.Items.RemoveAt(0);  // Xóa mục đầu tiên trong danh sách (vì đã paste ra khỏi clipboard)
+            }
+        }
+    }
+}
+
+Form1.Designer.cs
+namespace Doan10
+{
+    partial class Form1
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.listClipboard = new System.Windows.Forms.ListBox();
+            this.textInput = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // listClipboard
+            // 
+            this.listClipboard.FormattingEnabled = true;
+            this.listClipboard.ItemHeight = 20;
+            this.listClipboard.Location = new System.Drawing.Point(13, 133);
+            this.listClipboard.Name = "listClipboard";
+            this.listClipboard.Size = new System.Drawing.Size(457, 184);
+            this.listClipboard.TabIndex = 0;
+            // 
+            // textInput
+            // 
+            this.textInput.Location = new System.Drawing.Point(12, 25);
+            this.textInput.Name = "textInput";
+            this.textInput.Size = new System.Drawing.Size(456, 26);
+            this.textInput.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 75);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(125, 43);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Copy";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnCopy);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(180, 75);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(125, 43);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Paste";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btnPaste);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(481, 334);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textInput);
+            this.Controls.Add(this.listClipboard);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.ListBox listClipboard;
+        private System.Windows.Forms.TextBox textInput;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+    }
+}
+
+
