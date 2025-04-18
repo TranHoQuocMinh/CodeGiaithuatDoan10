@@ -42,6 +42,11 @@ namespace Doan10
                 textInput.Text = text;  // Gán nội dung đó lại vào ô nhập liệu
                 listClipboard.Items.RemoveAt(0);  // Xóa mục đầu tiên trong danh sách (vì đã paste ra khỏi clipboard)
             }
+             else
+            {
+                 // Hiển thị hộp thoại cảnh báo yêu cầu người dùng nhập nội dung
+                 MessageBox.Show("Không có văn bản để paste!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+             }
         }
     }
 }
